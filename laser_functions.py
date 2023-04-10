@@ -61,5 +61,6 @@ def fire_stop(server_address):
     print(answer_serv)
     sock.close()
 
+
 def test():
     print('hui')

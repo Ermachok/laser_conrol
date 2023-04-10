@@ -16,30 +16,28 @@ class App(QtWidgets.QMainWindow, laser_gui.Ui_MainWindow):
         self.timer.timeout.connect(self.lcd_number)
 
         self.server_address = ('192.168.10.110', 4001)
-
-        #self.ArmButton.clicked.connect(self.Arm_laser)
-        self.ArmButton.clicked.connect(self.count_start)
-        self.DisarmButton.clicked.connect(self.Arm_laser)
+        self.ArmButton.clicked.connect(self.Arm_laser)
+        #self.ArmButton.clicked.connect(self.count_start)
+        self.DisarmButton.clicked.connect(self.Disarm_laser)
 
 
 
     def Arm_laser(self):
+        self.timer_clock = 0
+        self.timer.start(1000)
+
         laser_functions.arm(self.server_address)
 
     def Disarm_laser(self):
+        self.timer.stop()
+        self.Clock.display('0')
         laser_functions.disarm(self.server_address)
 
 
-    def count_start(self):
-        self.time2 = 0
-        laser_functions.test()
-        self.timer.start(1000)
-
     def lcd_number(self):
-
-        self.time2 += 1
+        self.timer_clock += 1
         self.Clock.setDigitCount(2)
-        self.Clock.display('%d' %self.time2)
+        self.Clock.display('%d' % self.timer_clock)
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
